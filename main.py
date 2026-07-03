@@ -25,7 +25,8 @@ def main(page: ft.Page):
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         ),
-        padding=20,
+        padding=ft.Padding.only(top=10, bottom=5, left=20, right=20),
+        #padding=20,
     )
 
     # Hero Banner
@@ -51,29 +52,171 @@ def main(page: ft.Page):
         width=float("inf"),
         margin=10,
     )
+    def page_immobilier(nom):
+        def retour(e):
+           contenu.content = page_accueil()
+           page.update()
+        contenu.content = ft.Column(
+        [
+            ft.AppBar(
+                leading=ft.IconButton(
+                    icon=ft.Icons.ARROW_BACK,
+                    on_click=retour,
+                ),
+                title=ft.Text(nom),
+                bgcolor="#6200EE",
+            ),
+            ft.Container(
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+                content=ft.Text(
+                    f"Catégorie : {nom}",
+                    size=30,
+                    weight=ft.FontWeight.BOLD,
+                ),
+            ),
+        ],
+        expand=True,
+    )
 
+        page.update()
+    def page_vehicules(nom):
+        def retour(e):
+           contenu.content = page_accueil()
+           page.update()
+        contenu.content = ft.Column(
+        [
+            ft.AppBar(
+                leading=ft.IconButton(
+                    icon=ft.Icons.ARROW_BACK,
+                    on_click=retour,
+                ),
+                title=ft.Text(nom),
+                bgcolor="#6200EE",
+            ),
+            ft.Container(
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+                content=ft.Text(
+                    f"Catégorie : {nom}",
+                    size=30,
+                    weight=ft.FontWeight.BOLD,
+                ),
+            ),
+        ],
+        expand=True,
+    )
+
+        page.update()
+    def page_electronique(nom):
+        def retour(e):
+           contenu.content = page_accueil()
+           page.update()
+        contenu.content = ft.Column(
+        [
+            ft.AppBar(
+                leading=ft.IconButton(
+                    icon=ft.Icons.ARROW_BACK,
+                    on_click=retour,
+                ),
+                title=ft.Text(nom),
+                bgcolor="#6200EE",
+            ),
+            ft.Container(
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+                content=ft.Text(
+                    f"Catégorie : {nom}",
+                    size=30,
+                    weight=ft.FontWeight.BOLD,
+                ),
+            ),
+        ],
+        expand=True,
+    )
+
+        page.update()
+    def page_maison(nom):
+        def retour(e):
+           contenu.content = page_accueil()
+           page.update()
+        contenu.content = ft.Column(
+        [
+            ft.AppBar(
+                leading=ft.IconButton(
+                    icon=ft.Icons.ARROW_BACK,
+                    on_click=retour,
+                ),
+                title=ft.Text(nom),
+                bgcolor="#6200EE",
+            ),
+            ft.Container(
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+                content=ft.Text(
+                    f"Catégorie : {nom}",
+                    size=30,
+                    weight=ft.FontWeight.BOLD,
+                ),
+            ),
+        ],
+        expand=True,
+    )
+
+        page.update()
+    def ouvrir_categorie(nom):
+        if nom == "Immobilier":
+            page_immobilier(nom)
+        elif nom == "Véhicules":
+            page_vehicules(nom)
+        elif nom == "Électronique":
+            page_electronique(nom)
+        elif nom == "Maison":
+            page_maison(nom)
+
+        page.update()
     # Categories
     def create_cat(icon, label):
-        return ft.Column(
-            [
-                ft.IconButton(
-                    icon,
-                    bgcolor="#F5F5F5",
-                    icon_size=30,
-                ),
-                ft.Text(label, size=12),
-            ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        return ft.Container(
+            content=ft.Column(
+                [
+                    ft.Container(
+                        content=ft.Icon(
+                            icon,
+                            size=30,
+                            color="black",
+                        ),
+                        bgcolor="#F5F5F5",
+                        padding=15,
+                        border_radius=50,
+                    ),
+                    ft.Text(label, size=12),
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
+            on_click=lambda e, cat=label: ouvrir_categorie(cat),
         )
 
     categories = ft.Container(
         margin=ft.Margin.symmetric(vertical=10),
         content=ft.Row(
             [
-                create_cat(ft.Icons.HOME_OUTLINED, "Immobilier"),
-                create_cat(ft.Icons.DIRECTIONS_CAR_OUTLINED, "Véhicules"),
-                create_cat(ft.Icons.TV, "Électronique"),
-                create_cat(ft.Icons.CHAIR_OUTLINED, "Maison"),
+                create_cat(
+                    ft.Icons.HOME_OUTLINED,
+                    "Immobilier",
+                ),
+                create_cat(
+                    ft.Icons.DIRECTIONS_CAR_OUTLINED,
+                    "Véhicules",
+                ),
+                create_cat(
+                    ft.Icons.TV,
+                    "Électronique",
+                ),
+                create_cat(
+                    ft.Icons.CHAIR_OUTLINED,
+                    "Maison",
+                ),
             ],
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
         ),
@@ -170,7 +313,26 @@ def main(page: ft.Page):
             scroll=ft.ScrollMode.AUTO,
             controls=[
                 header,
+                ft.Container(
+                    padding=10,
+                    content=ft.TextField(
+                        hint_text="Rechercher un produit...",
+                        prefix_icon=ft.Icons.SEARCH,
+                        border_radius=20,
+                        filled=True,
+                        expand=True,
+                    ),
+                ),
                 hero,
+                ft.Container(
+                    padding=ft.Padding.only(top=0, bottom=5, left=20, right=20),
+                    #padding=10,
+                    content=ft.Text(
+                        "Catégories",
+                        size=18,
+                        weight=ft.FontWeight.BOLD,
+                    ),
+                ),
                 categories,
                 ft.Container(
                     padding=10,
@@ -195,7 +357,7 @@ def main(page: ft.Page):
         else:
             contenu.content = ft.Container(
                 expand=True,
-                alignment=ft.alignment.center,
+                alignment=ft.Alignment.CENTER,
                 content=ft.Text("Page vide", size=30),
             )
 
@@ -223,8 +385,8 @@ def main(page: ft.Page):
             ),
         ],
     )
-
+    
     contenu.content = page_accueil()
     page.add(contenu)
 
-ft.app(target=main)
+ft.app(target=main, view="web_browser")
