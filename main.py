@@ -290,7 +290,7 @@ def main(page: ft.Page):
 
     annonces = ft.GridView(
         runs_count=2,
-        child_aspect_ratio=0.61,
+        child_aspect_ratio=0.56,
         #spacing=6,
         padding=6,
         expand=True,
