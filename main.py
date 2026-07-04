@@ -223,79 +223,99 @@ def main(page: ft.Page):
     )
 
     # Cartes annonces
-    def create_card(image_url, title, price, location):
-        return ft.Card(
-        content=ft.Container(
-            padding=0,
-            width=190,
+    def create_card(image_url, prix, titre, ville):
+        return ft.Container(
+            width=250,
+            border_radius=18,
+            #shadow=ft.BoxShadow(
+                #blur_radius=10,
+            #),
             content=ft.Column(
-                [
+                spacing=0,
+                controls=[
                     ft.Stack(
-                        [
+                        controls=[
                             ft.Image(
                                 src=image_url,
-                                height=130,
+                                height=170,
+                                width=250,
                                 fit="cover",
-                                border_radius=10,
-                                width=float("inf"),
                             ),
+
                             ft.Container(
+                                top=10,
+                                right=10,
+                                width=35,
+                                height=35,
+                                bgcolor="white",
+                                border_radius=20,
+                                alignment=ft.Alignment.CENTER,
                                 content=ft.Icon(
-                                ft.Icons.FAVORITE_BORDER,
-                                color="white",
-                                size=24,
+                                    ft.Icons.FAVORITE_BORDER,
+                                    color="#B05A6E",
                                 ),
-                                top=8,
-                                right=8,
                             ),
-                        ],
-                        height=130,
+                        ]
                     ),
-                    ft.Text(
-                        title,
-                        size=14,
-                        weight=ft.FontWeight.BOLD,
-                        max_lines=2,
+
+                    ft.Container(
+                        padding=15,
+                        content=ft.Column(
+                            spacing=5,
+                            controls=[
+                                ft.Text(
+                                    prix,
+                                    size=18,
+                                    weight=ft.FontWeight.BOLD,
+                                ),
+                                ft.Text(
+                                    titre,
+                                    size=16,
+                                ),
+                                ft.Row(
+                                    controls=[
+                                        ft.Icon(
+                                            ft.Icons.LOCATION_ON_OUTLINED,
+                                            size=16,
+                                            color="grey",
+                                        ),
+                                        ft.Text(
+                                            ville,
+                                            color="grey",
+                                        ),
+                                    ]
+                                ),
+                            ],
+                        ),
                     ),
-                    ft.Text(
-                        price,
-                        color="lime",
-                        weight=ft.FontWeight.BOLD,
-                    ),
-                    #ft.Text(ville, color="grey", size=12),
-                    ft.Text(location, size=10, color="grey"),
-                ]
+                ],
             ),
         )
-    )
 
     annonces = ft.GridView(
         runs_count=2,
-        child_aspect_ratio=0.74,
+        child_aspect_ratio=0.64,
         #spacing=6,
         padding=6,
         expand=True,
         controls=[
             create_card(
-                "https://picsum.photos/200/200",
-                "Canapé 3 places",
+                "https://picsum.photos/500/300?1",
                 "250 €",
+                "Canapé 3 places",
                 "Paris, 75011",
-                #"Paris",
             ),
             create_card(
-                "https://picsum.photos/201/201",
-                "Peugeot 208",
+                "https://picsum.photos/500/300?2",
                 "8 500 €",
+                "Peugeot 208 2019",
                 "Lyon, 69003",
-                #"Lyon",
             ),
             create_card(
-                "https://picsum.photos/202/202",
-                "Mercedes Classe C",
-                "18 500 €",
-                "Marseille",
-                #"Marseille",
+                "https://picsum.photos/500/300?3",
+                "320 €",
+                "iPhone 11 64Go",
+                "Bordeaux, 33000",
             ),
             create_card(
                 "https://picsum.photos/203/203",
@@ -305,18 +325,16 @@ def main(page: ft.Page):
                 #"Bordeaux",
             ),
             create_card(
-                "https://picsum.photos/204/204",
-                "Samsung S24",
-                "850 €",
-                "Nice",
-                #"Nice",
+                "https://picsum.photos/500/300?4",
+                "120 €",
+                "Table en bois",
+                "Nantes, 44000",
             ),
             create_card(
-                "https://picsum.photos/205/205",
-                "TV LG 55 pouces",
-                "450 €",
-                "Lille",
-                #"Lille",
+                "https://picsum.photos/500/300?6",
+                "120 €",
+                "Table en bois",
+                "Nantes, 44000",
             ),
         ],
     )
