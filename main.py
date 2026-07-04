@@ -417,4 +417,4 @@ def main(page: ft.Page):
     contenu.content = page_accueil()
     page.add(contenu)
 
-ft.app(target=main)#, view="web_browser")
+ft.app(target=main)
