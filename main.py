@@ -223,41 +223,55 @@ def main(page: ft.Page):
     )
 
     # Cartes annonces
-    def create_card(image_url, title, price, location, ville):
+    def create_card(image_url, title, price, location):
         return ft.Card(
-            content=ft.Container(
-                padding=0,
-                width=190,
-                content=ft.Column(
-                    [
-                        ft.Image(
-                            src=image_url,
-                            height=130,
-                            fit="cover",
-                            border_radius=10,
-                            width=float("inf")
-                        ),
-                        ft.Text(
-                            title,
-                            size=14,
-                            weight=ft.FontWeight.BOLD,
-                            max_lines=2,
-                        ),
-                        ft.Text(
-                            price,
-                            color="lime",
-                            weight=ft.FontWeight.BOLD,
-                        ),
-                        ft.Text(ville, color="grey", size=12),
-                        ft.Text(location, size=10, color="grey"),
-                    ]
-                ),
-            )
+        content=ft.Container(
+            padding=0,
+            width=190,
+            content=ft.Column(
+                [
+                    ft.Stack(
+                        [
+                            ft.Image(
+                                src=image_url,
+                                height=130,
+                                fit="cover",
+                                border_radius=10,
+                                width=float("inf"),
+                            ),
+                            ft.Container(
+                                content=ft.Icon(
+                                ft.Icons.FAVORITE_BORDER,
+                                color="white",
+                                size=24,
+                                ),
+                                top=8,
+                                right=8,
+                            ),
+                        ],
+                        height=130,
+                    ),
+                    ft.Text(
+                        title,
+                        size=14,
+                        weight=ft.FontWeight.BOLD,
+                        max_lines=2,
+                    ),
+                    ft.Text(
+                        price,
+                        color="lime",
+                        weight=ft.FontWeight.BOLD,
+                    ),
+                    #ft.Text(ville, color="grey", size=12),
+                    ft.Text(location, size=10, color="grey"),
+                ]
+            ),
         )
+    )
 
     annonces = ft.GridView(
         runs_count=2,
-        child_aspect_ratio=0.67,
+        child_aspect_ratio=0.74,
         #spacing=6,
         padding=6,
         expand=True,
@@ -267,42 +281,42 @@ def main(page: ft.Page):
                 "Canapé 3 places",
                 "250 €",
                 "Paris, 75011",
-                "Paris",
+                #"Paris",
             ),
             create_card(
                 "https://picsum.photos/201/201",
                 "Peugeot 208",
                 "8 500 €",
                 "Lyon, 69003",
-                "Lyon",
+                #"Lyon",
             ),
             create_card(
                 "https://picsum.photos/202/202",
                 "Mercedes Classe C",
                 "18 500 €",
                 "Marseille",
-                "Marseille",
+                #"Marseille",
             ),
             create_card(
                 "https://picsum.photos/203/203",
                 "iPhone 15",
                 "900 €",
                 "Bordeaux",
-                "Bordeaux",
+                #"Bordeaux",
             ),
             create_card(
                 "https://picsum.photos/204/204",
                 "Samsung S24",
                 "850 €",
                 "Nice",
-                "Nice",
+                #"Nice",
             ),
             create_card(
                 "https://picsum.photos/205/205",
                 "TV LG 55 pouces",
                 "450 €",
                 "Lille",
-                "Lille",
+                #"Lille",
             ),
         ],
     )
@@ -389,4 +403,4 @@ def main(page: ft.Page):
     contenu.content = page_accueil()
     page.add(contenu)
 
-ft.app(target=main)
+ft.app(target=main)#, view="web_browser")
