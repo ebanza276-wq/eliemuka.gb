@@ -224,13 +224,8 @@ def main(page: ft.Page):
 
     # Cartes annonces
     def create_card(image_url, prix, titre, ville):
-        return ft.Container(
-            width=250,
-            border_radius=18,
-            #shadow=ft.BoxShadow(
-                #blur_radius=10,
-            #),
-            content=ft.Column(
+        return ft.Card(
+        content=ft.Column(
                 spacing=0,
                 controls=[
                     ft.Stack(
@@ -240,6 +235,7 @@ def main(page: ft.Page):
                                 height=170,
                                 width=250,
                                 fit="cover",
+                                border_radius=10,
                             ),
 
                             ft.Container(
@@ -289,12 +285,12 @@ def main(page: ft.Page):
                         ),
                     ),
                 ],
-            ),
-        )
+            )
+    )
 
     annonces = ft.GridView(
         runs_count=2,
-        child_aspect_ratio=0.64,
+        child_aspect_ratio=0.61,
         #spacing=6,
         padding=6,
         expand=True,
