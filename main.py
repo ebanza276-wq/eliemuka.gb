@@ -522,12 +522,168 @@ def main(page: ft.Page):
                 ),
             ],
         )
+    def page_publie():
+        return ft.Column(
+        scroll=ft.ScrollMode.AUTO,
+        expand=True,
+        spacing=15,
+        controls=[
+            ft.Container(
+                padding=20,
+                content=ft.Column(
+                    [
+                        ft.Text(
+                            "Publier une annonce",
+                            size=28,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.Text(
+                            "Remplissez les informations ci-dessous pour publier votre annonce.",
+                            color=ft.Colors.GREY,
+                        ),
+                    ]
+                ),
+            ),
 
+            # Photos
+            ft.Container(
+                width=900,
+                margin=10,
+                padding=20,
+                border=ft.Border.all(2, "#2A2A2A"),
+                border_radius=20,
+                bgcolor="#1E1E1E",
+                content=ft.Column(
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    controls=[
+                        ft.Icon(
+                            ft.Icons.ADD_PHOTO_ALTERNATE_OUTLINED,
+                            size=60,
+                            color="#6200EE",
+                        ),
+                        ft.Text(
+                            "Ajouter des photos",
+                            size=18,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.Text(
+                            "Ajoutez jusqu'à 10 photos de qualité",
+                            color=ft.Colors.GREY,
+                        ),
+                        ft.ElevatedButton(
+                            "Choisir des images",
+                        ),
+                    ],
+                ),
+            ),
+
+            # Informations générales
+            ft.Container(
+                width=900,
+                margin=10,
+                padding=20,
+                border_radius=20,
+                bgcolor="#1E1E1E",
+                content=ft.Column(
+                    controls=[
+                        ft.Text(
+                            "Informations générales",
+                            size=20,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+
+                        ft.TextField(
+                            label="Titre de l'annonce",
+                            hint_text="Ex: iPhone 15 Pro Max 256 Go",
+                            prefix_icon=ft.Icons.TITLE,
+                            border_radius=12,
+                        ),
+
+                        ft.TextField(
+                            label="Prix",
+                            prefix_icon=ft.Icons.EURO,
+                            keyboard_type=ft.KeyboardType.NUMBER,
+                            border_radius=12,
+                        ),
+
+                        ft.Dropdown(
+                            label="Catégorie",
+                            border_radius=12,
+                            options=[
+                                ft.dropdown.Option("Immobilier"),
+                                ft.dropdown.Option("Véhicules"),
+                                ft.dropdown.Option("Téléphones"),
+                                ft.dropdown.Option("Informatique"),
+                                ft.dropdown.Option("Mode"),
+                                ft.dropdown.Option("Services"),
+                                ft.dropdown.Option("Autres"),
+                            ],
+                        ),
+
+                        ft.TextField(
+                            label="Ville",
+                            prefix_icon=ft.Icons.LOCATION_ON_OUTLINED,
+                            border_radius=12,
+                        ),
+                    ],
+                ),
+            ),
+
+            # Description
+            ft.Container(
+                width=900,
+                margin=10,
+                padding=20,
+                border_radius=20,
+                bgcolor="#1E1E1E",
+                content=ft.Column(
+                    controls=[
+                        ft.Text(
+                            "Description",
+                            size=20,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.TextField(
+                            multiline=True,
+                            min_lines=6,
+                            max_lines=10,
+                            hint_text="Décrivez votre article en détail...",
+                            border_radius=12,
+                        ),
+                    ],
+                ),
+            ),
+
+            # Conseils
+            ft.Container(
+                margin=10,
+                padding=15,
+                border_radius=15,
+                bgcolor="#0D47A1",
+                content=ft.Row(
+                    [
+                        ft.Icon(
+                            ft.Icons.LIGHTBULB_OUTLINE,
+                            color="white",
+                        ),
+                        ft.Text(
+                            "Ajoutez plusieurs photos et une description détaillée pour vendre plus rapidement.",
+                            color="white",
+                            expand=True,
+                        ),
+                    ]
+                ),
+            ),
+
+        ],
+    )
     contenu = ft.Container(expand=True)
 
     def set_index(i):
         if i == 0:
             contenu.content = page_accueil()
+        elif i == 2:
+            contenu.content = page_publie()
         else:
             contenu.content = ft.Container(
                 expand=True,
