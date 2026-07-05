@@ -6,8 +6,8 @@ def main(page: ft.Page):
     page.padding = 0
     page.spacing = 0
     page.scroll = ft.ScrollMode.AUTO
-    #page.window.width = 390
-    #page.window.height = 844
+    page.window.width = 390
+    page.window.height = 844
     page.window.resizable = False
     page.window.center()
     # Liste des annonces
@@ -234,47 +234,50 @@ def main(page: ft.Page):
         def retour(e):
             contenu.content = page_accueil()
             page.update()
-        header = ft.Container(
-        padding=15,
-        content=ft.Row(
-            [
-                ft.IconButton(icon=ft.Icons.ARROW_BACK, on_click=retour),
-                ft.Text(
-                    "Détails de l’annonce",
-                    expand=True,
-                    text_align=ft.TextAlign.CENTER,
-                    size=22,
-                    weight=ft.FontWeight.BOLD,
-                ),
-                ft.Icon(ft.Icons.SHARE_OUTLINED, size=28),
-                ft.Icon(ft.Icons.FAVORITE_BORDER, size=28),
-            ]
-        ),
-    )
+        
         image_section = ft.Stack(
-        [
-            ft.Image(
-                src=image_url,
-                width=float("inf"),
-                height=370,
-                fit="cover",
+    [
+        # Image principale (placée en premier dans le Stack pour être en arrière-plan)
+        ft.Image(
+            src=image_url,
+            width=float("inf"),
+            height=370,
+            fit="cover",
+        ),
+        # Bouton Retour
+        ft.IconButton(
+            icon=ft.Icons.ARROW_BACK,
+            icon_color="white",
+            top=40,
+            left=20,
+            bgcolor=ft.Colors.with_opacity(0.4, "black"),
+            on_click=retour
+        ),
+        # Bouton Favoris
+        ft.IconButton(
+            icon=ft.Icons.FAVORITE_BORDER,
+            icon_color="white",
+            top=40,
+            right=20,
+            bgcolor=ft.Colors.with_opacity(0.4, "black")
+        ),
+        # Indicateur de compteur (1/5)
+        ft.Container(
+            bottom=15,
+            right=15,
+            bgcolor=ft.Colors.with_opacity(0.6, "black"), # Utilisation de with_opacity
+            border_radius=8,
+            padding=8,
+            content=ft.Row(
+                [
+                    ft.Icon(ft.Icons.PHOTO_CAMERA, color="white", size=18),
+                    ft.Text("1/5", color="white"),
+                ],
+                tight=True,
             ),
-            ft.Container(
-                bottom=15,
-                right=15,
-                bgcolor="#00000099",
-                border_radius=8,
-                padding=8,
-                content=ft.Row(
-                    [
-                        ft.Icon(ft.Icons.PHOTO_CAMERA, color="white", size=18),
-                        ft.Text("1/5", color="white"),
-                    ],
-                    tight=True,
-                ),
-            ),
-        ]
-        )
+        ),
+    ]
+)
         detaills = ft.Container(
         padding=20,
         content=ft.Column(
@@ -382,7 +385,7 @@ def main(page: ft.Page):
         )
         contenu.content = ft.Column(
             [
-                header,
+                
                 image_section,
                 detaills,
             ],
