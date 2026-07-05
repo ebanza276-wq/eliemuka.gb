@@ -702,7 +702,7 @@ def main(page: ft.Page):
                 label="Accueil",
             ),
             ft.NavigationBarDestination(
-                icon=ft.Icons.SEARCH,
+                icon=ft.Icons.FAVORITE,
                 label="Rechercher",
             ),
             ft.NavigationBarDestination(
@@ -713,10 +713,14 @@ def main(page: ft.Page):
                 icon=ft.Icons.MESSAGE_OUTLINED,
                 label="Messages",
             ),
+            ft.NavigationBarDestination(
+                icon=ft.Icons.PERSON,
+                label="Profil",
+            ),
         ],
     )
     
     contenu.content = page_accueil()
     page.add(contenu)
 
-ft.app(target=main)
+ft.app(target=main, view="web_browser")
