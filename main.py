@@ -6,18 +6,18 @@ def main(page: ft.Page):
     page.padding = 0
     page.spacing = 0
     page.scroll = ft.ScrollMode.AUTO
-    page.window.width = 390
-    page.window.height = 844
+    #page.window.width = 390
+    #page.window.height = 844
     page.window.resizable = False
     page.window.center()
     # Liste des annonces
     annonces_data = [
-    {"image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé."},
-    {"image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite."},
-    {"image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite."},
-    {"image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite."},
-    {"image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
-    {"image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
+    {"name":"Marc","image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé."},
+    {"name":"Micheal","image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite."},
+    {"name":"Paul","image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite."},
+    {"name":"Marcus","image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite."},
+    {"name":"Emmanuel","image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
+    {"name":"Simpson","image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
     ]
     # Header
     header = ft.Container(
@@ -229,122 +229,172 @@ def main(page: ft.Page):
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
         ),
     )
-    def page_detail(image_url, prix, titre, ville, details):
+    def page_detail(name,image_url, prix, titre, ville, details):
 
         def retour(e):
             contenu.content = page_accueil()
             page.update()
-
-        contenu.content = ft.Column(
-        expand=True,
-        scroll=ft.ScrollMode.AUTO,
-        controls=[
-            ft.Stack(
-                [
-                    ft.Image(
-                        src=image_url,
-                        height=280,
-                        width=float("inf"),
-                        fit="cover",
-                    ),
-                    ft.Container(
-                        top=15,
-                        left=15,
-                        bgcolor="#FFFFFF",
-                        border_radius=50,
-                        content=ft.IconButton(
-                            icon=ft.Icons.ARROW_BACK,
-                            on_click=retour,
-                        ),
-                    ),
-                    ft.Container(
-                        top=15,
-                        right=15,
-                        bgcolor="#FFFFFF",
-                        border_radius=50,
-                        content=ft.IconButton(
-                            icon=ft.Icons.FAVORITE_BORDER,
-                        ),
-                    ),
-                ]
+        header = ft.Container(
+        padding=15,
+        content=ft.Row(
+            [
+                ft.IconButton(icon=ft.Icons.ARROW_BACK, on_click=retour),
+                ft.Text(
+                    "Détails de l’annonce",
+                    expand=True,
+                    text_align=ft.TextAlign.CENTER,
+                    size=22,
+                    weight=ft.FontWeight.BOLD,
+                ),
+                ft.Icon(ft.Icons.SHARE_OUTLINED, size=28),
+                ft.Icon(ft.Icons.FAVORITE_BORDER, size=28),
+            ]
+        ),
+    )
+        image_section = ft.Stack(
+        [
+            ft.Image(
+                src=image_url,
+                width=float("inf"),
+                height=370,
+                fit="cover",
             ),
-
             ft.Container(
-                padding=20,
-                content=ft.Column(
-                    spacing=15,
-                    controls=[
-                        ft.Text(
-                            prix,
-                            size=30,
-                            weight=ft.FontWeight.BOLD,
-                            color="#6200EE",
-                        ),
-
-                        ft.Text(
-                            titre,
-                            size=24,
-                            weight=ft.FontWeight.W_600,
-                        ),
-
-                        ft.Row(
-                            [
-                                ft.Icon(
-                                    ft.Icons.LOCATION_ON,
-                                    size=18,
-                                    color="grey",
-                                ),
-                                ft.Text(
-                                    ville,
-                                    color="grey",
-                                    size=15,
-                                ),
-                            ]
-                        ),
-
-                        ft.Divider(),
-
-                        ft.Text(
-                            "Description",
-                            size=18,
-                            weight=ft.FontWeight.BOLD,
-                        ),
-
-                        ft.Text(
-                            details,
-                            size=15,
-                            selectable=True,
-                        ),
-
-                        ft.Divider(),
-
-                        ft.Row(
-                            [
-                                ft.FilledButton(
-                                    "Contacter",
-                                    icon=ft.Icons.MESSAGE,
-                                    expand=True,
-                                    height=50,
-                                ),
-                                ft.OutlinedButton(
-                                    "Partager",
-                                    icon=ft.Icons.SHARE,
-                                    expand=True,
-                                    height=50,
-                                ),
-                            ]
-                        ),
+                bottom=15,
+                right=15,
+                bgcolor="#00000099",
+                border_radius=8,
+                padding=8,
+                content=ft.Row(
+                    [
+                        ft.Icon(ft.Icons.PHOTO_CAMERA, color="white", size=18),
+                        ft.Text("1/5", color="white"),
                     ],
+                    tight=True,
                 ),
             ),
-        ],
-    )
+        ]
+        )
+        detaills = ft.Container(
+        padding=20,
+        content=ft.Column(
+            [
+                ft.Text(
+                    titre,
+                    size=26,
+                    weight=ft.FontWeight.BOLD,
+                ),
+
+                ft.Text(
+                    prix,
+                    size=30,
+                    weight=ft.FontWeight.BOLD,
+                    color="#1565C0",
+                ),
+
+                ft.Row(
+                    [
+                        ft.Icon(ft.Icons.ACCESS_TIME, size=18, color="grey"),
+                        ft.Text("Publiée il y a 2 jours", color="grey"),
+
+                        ft.Container(width=20),
+
+                        ft.Icon(ft.Icons.LOCATION_ON_OUTLINED,
+                                size=18,
+                                color="grey"),
+                        ft.Text(ville, color="grey"),
+                    ]
+                ),
+
+                ft.Divider(),
+
+                ft.Text(
+                    "Description",
+                    size=20,
+                    weight=ft.FontWeight.BOLD,
+                ),
+
+                ft.Text(
+                    details,
+                    size=16,
+                ),
+
+                ft.Divider(height=30),
+
+                ft.Text(
+                    "Contacter l'annonceur",
+                    size=20,
+                    weight=ft.FontWeight.BOLD,
+                ),
+
+                ft.Row(
+                    [
+                        ft.CircleAvatar(
+                            radius=25,
+                            content=ft.Icon(ft.Icons.PERSON),
+                        ),
+
+                        ft.Column(
+                            [
+                                ft.Text(
+                                    name,
+                                    weight=ft.FontWeight.BOLD,
+                                    size=18,
+                                ),
+                                ft.Text(
+                                    "Membre depuis mars 2022",
+                                    color="grey",
+                                ),
+                            ],
+                            spacing=2,
+                            expand=True,
+                        ),
+
+                        ft.ElevatedButton(
+                            "Écrire",
+                            icon=ft.Icons.CHAT_BUBBLE_OUTLINE,
+                            style=ft.ButtonStyle(
+                                bgcolor="#1565C0",
+                                color="white",
+                            ),
+                            height=50,
+                            width=150,
+                        ),
+                    ]
+                ),
+
+                ft.Container(height=15),
+
+                ft.ElevatedButton(
+                    "Appeler",
+                    icon=ft.Icons.CALL,
+                    style=ft.ButtonStyle(
+                        bgcolor="#16A34A",
+                        color="white",
+                        shape=ft.RoundedRectangleBorder(radius=8),
+                    ),
+                    width=float("inf"),
+                    height=55,
+                ),
+            ],
+            spacing=12,
+        ),
+        )
+        contenu.content = ft.Column(
+            [
+                header,
+                image_section,
+                detaills,
+            ],
+            spacing=0,
+        )
         page.update()
     # Cartes annonces
-    def create_card(image_url, prix, titre, ville,details):
+    def create_card(name,image_url, prix, titre, ville,details):
         return ft.Card(
         content=ft.Container(
             on_click=lambda e: page_detail(
+                name,
                 image_url,
                 prix,
                 titre,
@@ -420,11 +470,10 @@ def main(page: ft.Page):
     annonces = ft.GridView(
         runs_count=2,
         child_aspect_ratio=0.56,
-        #spacing=6,
         padding=6,
         expand=True,
         controls=[
-        create_card(item["image"], item["prix"], item["titre"], item["ville"],item["details"]) 
+        create_card(item["name"],item["image"], item["prix"], item["titre"], item["ville"],item["details"]) 
         for item in annonces_data
         ],
     )
