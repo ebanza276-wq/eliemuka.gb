@@ -10,7 +10,15 @@ def main(page: ft.Page):
     page.window.height = 844
     page.window.resizable = False
     page.window.center()
-
+    # Liste des annonces
+    annonces_data = [
+    {"image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé."},
+    {"image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite."},
+    {"image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite."},
+    {"image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite."},
+    {"image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
+    {"image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
+    ]
     # Header
     header = ft.Container(
         content=ft.Row(
@@ -221,10 +229,130 @@ def main(page: ft.Page):
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
         ),
     )
+    def page_detail(image_url, prix, titre, ville, details):
 
+        def retour(e):
+            contenu.content = page_accueil()
+            page.update()
+
+        contenu.content = ft.Column(
+        expand=True,
+        scroll=ft.ScrollMode.AUTO,
+        controls=[
+            ft.Stack(
+                [
+                    ft.Image(
+                        src=image_url,
+                        height=280,
+                        width=float("inf"),
+                        fit="cover",
+                    ),
+                    ft.Container(
+                        top=15,
+                        left=15,
+                        bgcolor="#FFFFFF",
+                        border_radius=50,
+                        content=ft.IconButton(
+                            icon=ft.Icons.ARROW_BACK,
+                            on_click=retour,
+                        ),
+                    ),
+                    ft.Container(
+                        top=15,
+                        right=15,
+                        bgcolor="#FFFFFF",
+                        border_radius=50,
+                        content=ft.IconButton(
+                            icon=ft.Icons.FAVORITE_BORDER,
+                        ),
+                    ),
+                ]
+            ),
+
+            ft.Container(
+                padding=20,
+                content=ft.Column(
+                    spacing=15,
+                    controls=[
+                        ft.Text(
+                            prix,
+                            size=30,
+                            weight=ft.FontWeight.BOLD,
+                            color="#6200EE",
+                        ),
+
+                        ft.Text(
+                            titre,
+                            size=24,
+                            weight=ft.FontWeight.W_600,
+                        ),
+
+                        ft.Row(
+                            [
+                                ft.Icon(
+                                    ft.Icons.LOCATION_ON,
+                                    size=18,
+                                    color="grey",
+                                ),
+                                ft.Text(
+                                    ville,
+                                    color="grey",
+                                    size=15,
+                                ),
+                            ]
+                        ),
+
+                        ft.Divider(),
+
+                        ft.Text(
+                            "Description",
+                            size=18,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+
+                        ft.Text(
+                            details,
+                            size=15,
+                            selectable=True,
+                        ),
+
+                        ft.Divider(),
+
+                        ft.Row(
+                            [
+                                ft.FilledButton(
+                                    "Contacter",
+                                    icon=ft.Icons.MESSAGE,
+                                    expand=True,
+                                    height=50,
+                                ),
+                                ft.OutlinedButton(
+                                    "Partager",
+                                    icon=ft.Icons.SHARE,
+                                    expand=True,
+                                    height=50,
+                                ),
+                            ]
+                        ),
+                    ],
+                ),
+            ),
+        ],
+    )
+        page.update()
     # Cartes annonces
-    def create_card(image_url, prix, titre, ville):
+    def create_card(image_url, prix, titre, ville,details):
         return ft.Card(
+        content=ft.Container(
+            on_click=lambda e: page_detail(
+                image_url,
+                prix,
+                titre,
+                ville,
+                details,
+            ),
+            #on_click=lambda e: print(f"Action pour {titre}"),
+            padding=0,
         content=ft.Column(
                 spacing=0,
                 controls=[
@@ -287,6 +415,7 @@ def main(page: ft.Page):
                 ],
             )
     )
+        )
 
     annonces = ft.GridView(
         runs_count=2,
@@ -295,43 +424,8 @@ def main(page: ft.Page):
         padding=6,
         expand=True,
         controls=[
-            create_card(
-                "https://picsum.photos/500/300?1",
-                "250 €",
-                "Canapé 3 places",
-                "Paris, 75011",
-            ),
-            create_card(
-                "https://picsum.photos/500/300?2",
-                "8 500 €",
-                "Peugeot 208 2019",
-                "Lyon, 69003",
-            ),
-            create_card(
-                "https://picsum.photos/500/300?3",
-                "320 €",
-                "iPhone 11 64Go",
-                "Bordeaux, 33000",
-            ),
-            create_card(
-                "https://picsum.photos/203/203",
-                "iPhone 15",
-                "900 €",
-                "Bordeaux",
-                #"Bordeaux",
-            ),
-            create_card(
-                "https://picsum.photos/500/300?4",
-                "120 €",
-                "Table en bois",
-                "Nantes, 44000",
-            ),
-            create_card(
-                "https://picsum.photos/500/300?6",
-                "120 €",
-                "Table en bois",
-                "Nantes, 44000",
-            ),
+        create_card(item["image"], item["prix"], item["titre"], item["ville"],item["details"]) 
+        for item in annonces_data
         ],
     )
 
