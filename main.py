@@ -682,6 +682,154 @@ def main(page: ft.Page):
 
         ],
     )
+    def page_profil():
+        return ft.Column(
+        scroll=ft.ScrollMode.AUTO,
+        expand=True,
+        controls=[
+            # Header profil
+            ft.Container(
+                padding=20,
+                content=ft.Column(
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    controls=[
+                        ft.CircleAvatar(
+                            radius=55,
+                            foreground_image_src="https://picsum.photos/200",
+                        ),
+                        ft.Text(
+                            "Elie Banza",
+                            size=24,
+                            weight=ft.FontWeight.BOLD,
+                        ),
+                        ft.Text(
+                            "Membre depuis 2026",
+                            color=ft.Colors.GREY,
+                        ),
+                    ],
+                ),
+            ),
+
+            # Statistiques
+            ft.Container(
+                margin=10,
+                padding=20,
+                bgcolor="#1E1E1E",
+                border_radius=20,
+                content=ft.Row(
+                    alignment=ft.MainAxisAlignment.SPACE_AROUND,
+                    controls=[
+                        ft.Column(
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                            controls=[
+                                ft.Text(
+                                    "12",
+                                    size=22,
+                                    weight=ft.FontWeight.BOLD,
+                                ),
+                                ft.Text("Annonces"),
+                            ],
+                        ),
+                        ft.Column(
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                            controls=[
+                                ft.Text(
+                                    "48",
+                                    size=22,
+                                    weight=ft.FontWeight.BOLD,
+                                ),
+                                ft.Text("Favoris"),
+                            ],
+                        ),
+                        ft.Column(
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                            controls=[
+                                ft.Text(
+                                    "4.8",
+                                    size=22,
+                                    weight=ft.FontWeight.BOLD,
+                                ),
+                                ft.Text("Note"),
+                            ],
+                        ),
+                    ],
+                ),
+            ),
+
+            # Boutons rapides
+            ft.Container(
+                margin=10,
+                content=ft.Row(
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    controls=[
+                        ft.ElevatedButton(
+                            "Modifier le profil",
+                            icon=ft.Icons.EDIT,
+                        ),
+                        ft.OutlinedButton(
+                            "Partager",
+                            icon=ft.Icons.SHARE,
+                        ),
+                    ],
+                ),
+            ),
+
+            # Menu
+            ft.Container(
+                margin=10,
+                padding=15,
+                bgcolor="#1E1E1E",
+                border_radius=20,
+                content=ft.Column(
+                    spacing=5,
+                    controls=[
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.LIST_ALT),
+                            title=ft.Text("Mes annonces"),
+                            trailing=ft.Icon(ft.Icons.CHEVRON_RIGHT),
+                        ),
+                        ft.Divider(),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.FAVORITE_BORDER),
+                            title=ft.Text("Mes favoris"),
+                            trailing=ft.Icon(ft.Icons.CHEVRON_RIGHT),
+                        ),
+                        ft.Divider(),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.CHAT_OUTLINED),
+                            title=ft.Text("Mes messages"),
+                            trailing=ft.Icon(ft.Icons.CHEVRON_RIGHT),
+                        ),
+                        ft.Divider(),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.NOTIFICATIONS_OUTLINED),
+                            title=ft.Text("Notifications"),
+                            trailing=ft.Icon(ft.Icons.CHEVRON_RIGHT),
+                        ),
+                        ft.Divider(),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.SETTINGS_OUTLINED),
+                            title=ft.Text("Paramètres"),
+                            trailing=ft.Icon(ft.Icons.CHEVRON_RIGHT),
+                        ),
+                    ],
+                ),
+            ),
+
+            # Déconnexion
+            ft.Container(
+                margin=10,
+                content=ft.ElevatedButton(
+                    "Déconnexion",
+                    icon=ft.Icons.LOGOUT,
+                    bgcolor="#D32F2F",
+                    color="white",
+                    width=float("inf"),
+                    height=50,
+                ),
+            ),
+        ],
+    )
     contenu = ft.Container(expand=True)
 
     def set_index(i):
@@ -689,6 +837,8 @@ def main(page: ft.Page):
             contenu.content = page_accueil()
         elif i == 2:
             contenu.content = page_publie()
+        elif i == 4:
+            contenu.content = page_profil()
         else:
             contenu.content = ft.Container(
                 expand=True,
