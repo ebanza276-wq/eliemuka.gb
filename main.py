@@ -12,12 +12,12 @@ def main(page: ft.Page):
     page.window.center()
     # Liste des annonces
     annonces_data = [
-    {"name":"Marc","image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé."},
-    {"name":"Micheal","image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite."},
-    {"name":"Paul","image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite."},
-    {"name":"Marcus","image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite."},
-    {"name":"Emmanuel","image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
-    {"name":"Simpson","image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite."},
+    {"name":"Marc","image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé.","numero":"+243831234567"},
+    {"name":"Micheal","image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite.","numero":"+243831234599"},
+    {"name":"Paul","image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite.","numero":"+233831734567"},
+    {"name":"Marcus","image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite.","numero":"+243831234567"},
+    {"name":"Emmanuel","image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite.","numero":"+243831234567"},
+    {"name":"Simpson","image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite.","numero":"+223831234967"},
     ]
     # Header
     header = ft.Container(
@@ -229,7 +229,9 @@ def main(page: ft.Page):
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
         ),
     )
-    def page_detail(name,image_url, prix, titre, ville, details):
+    async def appeler(e, numero):
+        await page.launch_url(f"tel:{numero}")
+    def page_detail(name,image_url, prix, titre, ville, details,numero):
 
         def retour(e):
             contenu.content = page_accueil()
@@ -378,6 +380,7 @@ def main(page: ft.Page):
                     ),
                     width=float("inf"),
                     height=55,
+                    on_click=lambda e: page.run_task(appeler, e, numero),
                 ),
             ],
             spacing=12,
@@ -393,7 +396,7 @@ def main(page: ft.Page):
         )
         page.update()
     # Cartes annonces
-    def create_card(name,image_url, prix, titre, ville,details):
+    def create_card(name,image_url, prix, titre, ville,details,numero):
         return ft.Card(
         content=ft.Container(
             on_click=lambda e: page_detail(
@@ -403,6 +406,7 @@ def main(page: ft.Page):
                 titre,
                 ville,
                 details,
+                numero
             ),
             #on_click=lambda e: print(f"Action pour {titre}"),
             padding=0,
@@ -476,7 +480,7 @@ def main(page: ft.Page):
         padding=6,
         expand=True,
         controls=[
-        create_card(item["name"],item["image"], item["prix"], item["titre"], item["ville"],item["details"]) 
+        create_card(item["name"],item["image"], item["prix"], item["titre"], item["ville"],item["details"],item["numero"]) 
         for item in annonces_data
         ],
     )
@@ -522,6 +526,7 @@ def main(page: ft.Page):
                 ),
             ],
         )
+    
     def page_publie():
         return ft.Column(
         scroll=ft.ScrollMode.AUTO,
@@ -723,4 +728,4 @@ def main(page: ft.Page):
     contenu.content = page_accueil()
     page.add(contenu)
 
-ft.app(target=main, view="web_browser")
+ft.app(target=main)#, view="web_browser")
