@@ -10,15 +10,18 @@ def main(page: ft.Page):
     page.window.height = 844
     page.window.resizable = False
     page.window.center()
+    
     # Liste des annonces
     annonces_data = [
-    {"name":"Marc","image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé.","numero":"+243831234567"},
-    {"name":"Micheal","image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite.","numero":"+243831234599"},
-    {"name":"Paul","image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite.","numero":"+233831734567"},
-    {"name":"Marcus","image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite.","numero":"+243831234567"},
-    {"name":"Emmanuel","image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite.","numero":"+243831234567"},
-    {"name":"Simpson","image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite.","numero":"+223831234967"},
+    {"name":"Marc","image": "https://picsum.photos/500/300?1", "prix": "250 €", "titre": "Canapé 3 places", "ville": "Paris, 75011","details": "Très bon état, peu utilisé.","categories":"immobilier","numero":"+243831234567"},
+    {"name":"Micheal","image": "https://picsum.photos/500/300?2", "prix": "8 500 €", "titre": "Peugeot 208 2019", "ville": "Lyon, 69003","details": "45 000 km, révision faite.","categories":"voiture","numero":"+243831234599"},
+    {"name":"Paul","image": "https://picsum.photos/500/300?3", "prix": "320 €", "titre": "iPhone 11 64Go", "ville": "Bordeaux, 33000","details": "45 000 km, révision faite.","categories":"electronique","numero":"+233831734567"},
+    {"name":"Marcus","image": "https://picsum.photos/203/203", "prix": "900 €", "titre": "iPhone 15", "ville": "Bordeaux","details": "45 000 km, révision faite.","categories":"electronique","numero":"+243831234567"},
+    {"name":"Emmanuel","image": "https://picsum.photos/500/300?4", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite.","categories":"maison","numero":"+243831234567"},
+    {"name":"Simpson","image": "https://picsum.photos/500/300?6", "prix": "120 €", "titre": "Table en bois", "ville": "Nantes, 44000","details": "45 000 km, révision faite.","categories":"maison","numero":"+223831234967"},
     ]
+    produits_filtrés = annonces_data.copy()
+    search_value = ""
     # Header
     header = ft.Container(
         content=ft.Row(
@@ -88,103 +91,66 @@ def main(page: ft.Page):
     )
 
         page.update()
-    def page_vehicules(nom):
+    
+    def ouvrir_categorie(nom,categories):
         def retour(e):
            contenu.content = page_accueil()
            page.update()
+        annonces_filtrees = [
+        item for item in annonces_data
+        if item["categories"] == categories
+        ]
+        
         contenu.content = ft.Column(
-        [
-            ft.AppBar(
-                leading=ft.IconButton(
-                    icon=ft.Icons.ARROW_BACK,
-                    on_click=retour,
+            expand=True,
+            scroll=ft.ScrollMode.AUTO,
+            controls=[
+                ft.Container( 
+                    content=ft.Row( 
+                        [ 
+                        ft.IconButton( 
+                            icon=ft.Icons.ARROW_BACK, 
+                            on_click=retour, 
+                        ), 
+                        ft.Text( 
+                            nom, 
+                            size=24, 
+                            weight=ft.FontWeight.BOLD, 
+                            color="#6200EE", 
+                        ), 
+                        ft.Icon(
+                            ft.Icons.NOTIFICATIONS_OUTLINED
+                        ), 
+                        ], 
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN, 
+                        ), 
+                        padding=ft.Padding.only(top=10, bottom=5, left=20, right=20), 
                 ),
-                title=ft.Text(nom),
-                bgcolor="#6200EE",
-            ),
-            ft.Container(
-                expand=True,
-                alignment=ft.Alignment.CENTER,
-                content=ft.Text(
-                    f"Catégorie : {nom}",
-                    size=30,
-                    weight=ft.FontWeight.BOLD,
-                ),
-            ),
-        ],
-        expand=True,
-    )
 
-        page.update()
-    def page_electronique(nom):
-        def retour(e):
-           contenu.content = page_accueil()
-           page.update()
-        contenu.content = ft.Column(
-        [
-            ft.AppBar(
-                leading=ft.IconButton(
-                    icon=ft.Icons.ARROW_BACK,
-                    on_click=retour,
-                ),
-                title=ft.Text(nom),
-                bgcolor="#6200EE",
-            ),
-            ft.Container(
+                ft.GridView(
+                runs_count=2,
+                child_aspect_ratio=0.56,
+                padding=6,
                 expand=True,
-                alignment=ft.Alignment.CENTER,
-                content=ft.Text(
-                    f"Catégorie : {nom}",
-                    size=30,
-                    weight=ft.FontWeight.BOLD,
-                ),
-            ),
+                controls=[
+                    create_card(
+                        item["name"],
+                        item["image"],
+                        item["prix"],
+                        item["titre"],
+                        item["ville"],
+                        item["details"],
+                        item["numero"]
+                    )
+                    for item in annonces_filtrees
+                ]
+            )
         ],
-        expand=True,
-    )
-
-        page.update()
-    def page_maison(nom):
-        def retour(e):
-           contenu.content = page_accueil()
-           page.update()
-        contenu.content = ft.Column(
-        [
-            ft.AppBar(
-                leading=ft.IconButton(
-                    icon=ft.Icons.ARROW_BACK,
-                    on_click=retour,
-                ),
-                title=ft.Text(nom),
-                bgcolor="#6200EE",
-            ),
-            ft.Container(
-                expand=True,
-                alignment=ft.Alignment.CENTER,
-                content=ft.Text(
-                    f"Catégorie : {nom}",
-                    size=30,
-                    weight=ft.FontWeight.BOLD,
-                ),
-            ),
-        ],
-        expand=True,
-    )
-
-        page.update()
-    def ouvrir_categorie(nom):
-        if nom == "Immobilier":
-            page_immobilier(nom)
-        elif nom == "Véhicules":
-            page_vehicules(nom)
-        elif nom == "Électronique":
-            page_electronique(nom)
-        elif nom == "Maison":
-            page_maison(nom)
+        )
 
         page.update()
     # Categories
-    def create_cat(icon, label):
+    def create_cat(icon, label,categories):
         return ft.Container(
             content=ft.Column(
                 [
@@ -202,7 +168,7 @@ def main(page: ft.Page):
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            on_click=lambda e, cat=label: ouvrir_categorie(cat),
+            on_click=lambda e, cat=label: ouvrir_categorie(cat,categories),
         )
 
     categories = ft.Container(
@@ -210,20 +176,24 @@ def main(page: ft.Page):
         content=ft.Row(
             [
                 create_cat(
-                    ft.Icons.HOME_OUTLINED,
-                    "Immobilier",
+                ft.Icons.HOME_OUTLINED,
+                "Immobilier",
+                "immobilier",
                 ),
                 create_cat(
-                    ft.Icons.DIRECTIONS_CAR_OUTLINED,
-                    "Véhicules",
+                ft.Icons.DIRECTIONS_CAR_OUTLINED,
+                "Véhicules",
+                "voiture",
                 ),
                 create_cat(
-                    ft.Icons.TV,
-                    "Électronique",
+                ft.Icons.TV,
+                "Électronique",
+                "electronique",
                 ),
                 create_cat(
-                    ft.Icons.CHAIR_OUTLINED,
-                    "Maison",
+                ft.Icons.CHAIR_OUTLINED,
+                "Maison",
+                "maison",
                 ),
             ],
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
@@ -484,7 +454,19 @@ def main(page: ft.Page):
         for item in annonces_data
         ],
     )
-
+    def filtrer(e):
+        nonlocal produits_filtrés, search_value
+        search_value = e.control.value.lower()
+        produits_filtrés = [
+            p for p in annonces_data
+            if search_value in p["titre"].lower()
+            or search_value in p["name"].lower()
+            or search_value in p["ville"].lower()
+            or search_value in p["prix"].lower()
+        ]
+        annonces.controls = [create_card(item["name"],item["image"], item["prix"], item["titre"], item["ville"],item["details"],item["numero"]) 
+        for item in produits_filtrés]
+        page.update()
     def page_accueil():
         return ft.Column(
             expand=True,
@@ -499,6 +481,8 @@ def main(page: ft.Page):
                         border_radius=20,
                         filled=True,
                         expand=True,
+                        on_change=filtrer,
+                        value=search_value,
                     ),
                 ),
                 hero,
